@@ -78,6 +78,7 @@ const settings: TranslationStrings = {
   'settings.notifyPackingTagged': 'Packing list: assignments',
   'settings.notifyWebhook': 'Webhook notifications',
   'settings.notifyVersionAvailable': 'New version available',
+  'settings.notifyReplicationFailed': 'Postgres mirror failed',
   'settings.notificationPreferences.email': 'Email',
   'settings.notificationPreferences.webhook': 'Webhook',
   'settings.notificationPreferences.inapp': 'In-App',

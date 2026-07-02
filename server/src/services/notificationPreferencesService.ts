@@ -16,6 +16,7 @@ export type NotifEventType =
   | 'collab_message'
   | 'packing_tagged'
   | 'version_available'
+  | 'replication_failed'
   | 'synology_session_cleared';
 
 export interface AvailableChannels {
@@ -37,11 +38,12 @@ const IMPLEMENTED_COMBOS: Record<NotifEventType, NotifChannel[]> = {
   collab_message:    ['inapp', 'email', 'webhook', 'ntfy'],
   packing_tagged:    ['inapp', 'email', 'webhook', 'ntfy'],
   version_available: ['inapp', 'email', 'webhook', 'ntfy'],
+  replication_failed: ['inapp', 'email', 'webhook', 'ntfy'],
   synology_session_cleared: ['inapp'],
 };
 
 /** Events that target admins only (shown in admin panel, not in user settings). */
-export const ADMIN_SCOPED_EVENTS = new Set<NotifEventType>(['version_available']);
+export const ADMIN_SCOPED_EVENTS = new Set<NotifEventType>(['version_available', 'replication_failed']);
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 

@@ -8,6 +8,10 @@ const zh: NotificationLocale = {
     openTrek: '打开 TREK',
   },
   events: {
+    replication_failed: (p) => ({
+      title: 'TREK Postgres mirror failed',
+      body: `The scheduled Postgres mirror failed: ${p.error}`,
+    }),
     trip_invite: (p) => ({
       title: `邀请加入"${p.trip}"`,
       body: `${p.actor} 邀请了 ${p.invitee || '成员'} 加入旅行"${p.trip}"。`,

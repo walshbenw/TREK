@@ -130,6 +130,13 @@ const EVENT_NOTIFICATION_CONFIG: Record<string, EventNotifConfig> = {
     textKey: 'notifications.synologySessionCleared.text',
     navigateTarget: () => null,
   },
+  replication_failed: {
+    inAppType: 'navigate',
+    titleKey: 'notif.replication_failed.title',
+    textKey: 'notif.replication_failed.text',
+    navigateTextKey: 'notif.action.view_admin',
+    navigateTarget: () => '/admin',
+  },
 };
 
 // ── Fallback config for unknown event types ────────────────────────────────

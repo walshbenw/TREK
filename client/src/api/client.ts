@@ -720,6 +720,13 @@ export const backupApi = {
   setAutoSettings: (settings: Record<string, unknown>) => apiClient.put('/backup/auto-settings', settings).then(r => r.data),
 }
 
+export const replicationApi = {
+  getSettings: () => apiClient.get('/replication/settings').then(r => r.data),
+  saveSettings: (data: Record<string, unknown>) => apiClient.put('/replication/settings', data).then(r => r.data),
+  test: (data: Record<string, unknown>) => apiClient.post('/replication/test', data).then(r => r.data),
+  run: () => apiClient.post('/replication/run').then(r => r.data),
+}
+
 export const shareApi = {
   getLink: (tripId: number | string) => apiClient.get(`/trips/${tripId}/share-link`).then(r => r.data),
   createLink: (tripId: number | string, perms?: Record<string, boolean>) => apiClient.post(`/trips/${tripId}/share-link`, perms || {}).then(r => r.data),

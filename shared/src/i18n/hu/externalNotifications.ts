@@ -8,6 +8,10 @@ const hu: NotificationLocale = {
     openTrek: 'TREK megnyitása',
   },
   events: {
+    replication_failed: (p) => ({
+      title: 'TREK Postgres mirror failed',
+      body: `The scheduled Postgres mirror failed: ${p.error}`,
+    }),
     trip_invite: (p) => ({
       title: `Meghívó a(z) "${p.trip}" utazásra`,
       body: `${p.actor} meghívta ${p.invitee || 'egy tagot'} a(z) "${p.trip}" utazásra.`,

@@ -408,8 +408,36 @@ function startAirTrailSync(): void {
   }, { timezone: tz });
 }
 
+// SQLite → Postgres mirror. Enable + schedule come from the replication service's
+// own settings file; the run itself is best-effort and never touches the live DB.
+let replicationTask: ScheduledTask | null = null;
+
+function startReplication(): void {
+  if (replicationTask) { replicationTask.stop(); replicationTask = null; }
+
+  const { loadSettings: loadReplicationSettings } = require('./services/replicationService');
+  const settings = loadReplicationSettings();
+  if (!settings.enabled) {
+    logInfo('Replication (Postgres mirror) disabled');
+    return;
+  }
+
+  const expression = buildCronExpression(settings);
+  const tz = process.env.TZ || 'UTC';
+  replicationTask = cron.schedule(expression, async () => {
+    try {
+      const { runReplication } = require('./services/replicationService');
+      await runReplication();
+    } catch (err: unknown) {
+      logError(`Replication tick failed: ${err instanceof Error ? err.message : err}`);
+    }
+  }, { timezone: tz });
+  logInfo(`Replication (Postgres mirror) scheduled: ${settings.interval} (${expression}), tz: ${tz}`);
+}
+
 function stop(): void {
   if (currentTask) { currentTask.stop(); currentTask = null; }
+  if (replicationTask) { replicationTask.stop(); replicationTask = null; }
   if (demoTask) { demoTask.stop(); demoTask = null; }
   if (reminderTask) { reminderTask.stop(); reminderTask = null; }
   if (versionCheckTask) { versionCheckTask.stop(); versionCheckTask = null; }
@@ -419,4 +447,4 @@ function stop(): void {
   if (airtrailSyncTask) { airtrailSyncTask.stop(); airtrailSyncTask = null; }
 }
 
-export { start, stop, startDemoReset, startTripReminders, startTodoReminders, startVersionCheck, startIdempotencyCleanup, purgeExpiredIdempotencyKeys, startTrekPhotoCacheCleanup, startPlacePhotoCacheCleanup, startAirTrailSync, loadSettings, saveSettings, VALID_INTERVALS };
+export { start, stop, startDemoReset, startTripReminders, startTodoReminders, startVersionCheck, startIdempotencyCleanup, purgeExpiredIdempotencyKeys, startTrekPhotoCacheCleanup, startPlacePhotoCacheCleanup, startAirTrailSync, startReplication, loadSettings, saveSettings, VALID_INTERVALS };

@@ -31,6 +31,7 @@ export type NotificationEventKey =
   | 'collab_message'
   | 'packing_tagged'
   | 'version_available'
+  | 'replication_failed'
   | 'synology_session_cleared';
 
 export interface NotificationLocale {

@@ -104,11 +104,12 @@ describe('getPreferencesMatrix', () => {
     expect(event_types.length).toBe(9);
   });
 
-  it('NPREF-005b — admin scope returns only version_available', () => {
+  it('NPREF-005b — admin scope returns the admin-scoped events', () => {
     const { user } = createAdmin(testDb);
     const { event_types } = getPreferencesMatrix(user.id, 'admin', 'admin');
     expect(event_types).toContain('version_available');
-    expect(event_types.length).toBe(1);
+    expect(event_types).toContain('replication_failed');
+    expect(event_types.length).toBe(2);
   });
 
   it('NPREF-006 — returns default true for all preferences when no stored prefs', () => {
