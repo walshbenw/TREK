@@ -6,12 +6,13 @@ import { useTranslation } from '../i18n'
 import PageShell from '../components/Layout/PageShell'
 import CategoryManager from '../components/Admin/CategoryManager'
 import BackupPanel from '../components/Admin/BackupPanel'
+import ReplicationPanel from '../components/Admin/ReplicationPanel'
 import GitHubPanel from '../components/Admin/GitHubPanel'
 import AddonManager from '../components/Admin/AddonManager'
 import PackingTemplateManager from '../components/Admin/PackingTemplateManager'
 import AuditLogPanel from '../components/Admin/AuditLogPanel'
 import AdminMcpTokensPanel from '../components/Admin/AdminMcpTokensPanel'
-import { Users, Map, Briefcase, Shield, FileText, SlidersHorizontal, UserCog, Puzzle, Settings as SettingsIcon, Bell, Database, ScrollText, KeyRound, GitBranch, Bug } from 'lucide-react'
+import { Users, Map, Briefcase, Shield, FileText, SlidersHorizontal, UserCog, Puzzle, Settings as SettingsIcon, Bell, Database, DatabaseZap, ScrollText, KeyRound, GitBranch, Bug } from 'lucide-react'
 import PageSidebar, { type PageSidebarTab } from '../components/Layout/PageSidebar'
 import { useAdmin } from './admin/useAdmin'
 import AdminUpdateBanner from './admin/AdminUpdateBanner'
@@ -43,6 +44,7 @@ export default function AdminPage(): React.ReactElement {
     { id: 'settings', label: t('admin.tabs.settings'), icon: SettingsIcon },
     { id: 'notifications', label: t('admin.tabs.notifications'), icon: Bell },
     { id: 'backup', label: t('admin.tabs.backup'), icon: Database },
+    { id: 'replication', label: t('admin.tabs.replication'), icon: DatabaseZap },
     { id: 'audit', label: t('admin.tabs.audit'), icon: ScrollText },
     ...(mcpEnabled ? [{ id: 'mcp-tokens', label: t('admin.tabs.mcpTokens'), icon: KeyRound }] : []),
     { id: 'github', label: t('admin.tabs.github'), icon: GitBranch },
@@ -148,6 +150,7 @@ export default function AdminPage(): React.ReactElement {
           )}
 
           {activeTab === 'backup' && <BackupPanel />}
+          {activeTab === 'replication' && <ReplicationPanel />}
 
           {activeTab === 'audit' && <AuditLogPanel serverTimezone={serverTimezone} />}
 

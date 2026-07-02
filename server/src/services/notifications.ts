@@ -392,6 +392,7 @@ const NTFY_EVENT_META: Partial<Record<NotifEventType, { priority: 1 | 2 | 3 | 4 
   collab_message:           { priority: 3, tags: ['speech_balloon'] },
   packing_tagged:           { priority: 3, tags: ['luggage'] },
   version_available:        { priority: 4, tags: ['package'] },
+  replication_failed:       { priority: 5, tags: ['rotating_light'] },
   synology_session_cleared: { priority: 3, tags: ['warning'] },
 };
 const NTFY_DEFAULT_META = { priority: 3 as const, tags: [] as string[] };

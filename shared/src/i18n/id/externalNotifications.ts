@@ -8,6 +8,10 @@ const id: NotificationLocale = {
     openTrek: 'Buka TREK',
   },
   events: {
+    replication_failed: (p) => ({
+      title: 'TREK Postgres mirror failed',
+      body: `The scheduled Postgres mirror failed: ${p.error}`,
+    }),
     trip_invite: (p) => ({
       title: `Undangan perjalanan: "${p.trip}"`,
       body: `${p.actor} mengundang ${p.invitee || 'seorang anggota'} ke perjalanan "${p.trip}".`,
