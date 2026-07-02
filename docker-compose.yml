@@ -1,6 +1,9 @@
 services:
   app:
-    image: mauriceboe/trek:dev
+    image: trek:local
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: trek
     read_only: true
     security_opt:
@@ -14,7 +17,7 @@ services:
     tmpfs:
       - /tmp:noexec,nosuid,size=128m
     ports:
-      - "3000:3000"
+      - "7890:3000"
     environment:
       - NODE_ENV=production
       - PORT=3000
@@ -25,12 +28,12 @@ services:
 #      - SESSION_DURATION=30d # How long users stay logged in (trek_session JWT + cookie maxAge). Accepts: 1h | 12h | 7d | 30d | 90d. Default: 24h
 #      - SESSION_DURATION_REMEMBER=30d # Session length when "Remember me" is ticked at login: longer-lived JWT + persistent cookie that survives browser restarts. Same format as SESSION_DURATION. Default: 30d
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-} # Comma-separated origins for CORS and email notification links
-#      - FORCE_HTTPS=true # Optional. Enables HTTPS redirect, HSTS, CSP upgrade-insecure-requests, and secure cookies behind a TLS proxy
+      - FORCE_HTTPS=true # Optional. Enables HTTPS redirect, HSTS, CSP upgrade-insecure-requests, and secure cookies behind a TLS proxy
 #      - HSTS_INCLUDE_SUBDOMAINS=false # When true: adds includeSubDomains to the HSTS header. Only effective when HSTS is active. Leave false if sibling subdomains still run over plain HTTP.
 #      - COOKIE_SECURE=false # Escape hatch: force session cookies over plain HTTP even in production. Not recommended.
 #      - TRUST_PROXY=1 # Trusted proxy count for X-Forwarded-For / X-Forwarded-Proto. Required for FORCE_HTTPS to work.
 #      - ALLOW_INTERNAL_NETWORK=false # Set to true if Immich or other services are hosted on your local network (RFC-1918 IPs). Loopback and link-local addresses remain blocked regardless.
-#      - APP_URL=https://trek.example.com # Public base URL — required when OIDC is enabled (must match the redirect URI registered with your IdP); also used as base URL for links in email notifications
+      - APP_URL=https://trek.albion-camelot.com # Public base URL — required when OIDC is enabled (must match the redirect URI registered with your IdP); also used as base URL for links in email notifications
 #      - OIDC_ISSUER=https://auth.example.com # OpenID Connect provider URL
 #      - OIDC_CLIENT_ID=trek # OpenID Connect client ID
 #      - OIDC_CLIENT_SECRET=supersecret # OpenID Connect client secret
@@ -45,6 +48,7 @@ services:
 #      - MCP_RATE_LIMIT=300 # Max MCP API requests per user per minute (default: 300)
 #      - MCP_MAX_SESSION_PER_USER=20 # Max concurrent MCP sessions per user (default: 20)
 #      - KITINERARY_EXTRACTOR_PATH= # Optional. Full path to kitinerary-extractor binary. Auto-detected from PATH and /usr/lib/*/libexec/kf6/ when unset.
+#      - REPLICA_PG_URL=postgres://user:password@postgres-host:5432/trek_mirror?sslmode=require # Optional. Enables the scheduled SQLite->Postgres mirror (Admin > Postgres Mirror). Overrides the encrypted value set via the admin UI. Omit and configure via the UI instead if you'd rather not put the credential in this file.
     volumes:
       - ./data:/app/data
       - ./uploads:/app/uploads
