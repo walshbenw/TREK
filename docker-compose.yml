@@ -4,6 +4,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        # Version stamped into the image (Dockerfile ARG APP_VERSION, default "dev").
+        # Set to the upstream release this fork is based on so the admin update-check
+        # matches "latest" and stops nagging. Bump when rebasing onto a newer release.
+        APP_VERSION: "3.1.4"
     container_name: trek
     read_only: true
     security_opt:
@@ -50,7 +55,7 @@ services:
 #      - KITINERARY_EXTRACTOR_PATH= # Optional. Full path to kitinerary-extractor binary. Auto-detected from PATH and /usr/lib/*/libexec/kf6/ when unset.
 #      - REPLICA_PG_URL=postgres://user:password@postgres-host:5432/trek_mirror?sslmode=require # Optional. Enables the scheduled SQLite->Postgres mirror (Admin > Postgres Mirror). Overrides the encrypted value set via the admin UI. Omit and configure via the UI instead if you'd rather not put the credential in this file.
     volumes:
-      - ./data:/app/data
+      - /opt/trek/data:/app/data
       - ./uploads:/app/uploads
     restart: unless-stopped
     healthcheck:
